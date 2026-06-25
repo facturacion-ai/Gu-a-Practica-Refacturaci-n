@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía · Refacturación Mercantil 1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; color: #1a1a2e; }
+
+  /* NAV */
+  .top-nav {
+    background: #12141c;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .nav-logo { color: #fff; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .nav-logo span { color: #7c6af7; }
+  .nav-steps { display: flex; gap: 6px; }
+  .nav-step {
+    color: #aaa;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all .2s;
+    border: 1px solid transparent;
+  }
+  .nav-step:hover { color: #fff; border-color: #444; }
+  .nav-step.active { background: #7c6af7; color: #fff; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #12141c 0%, #1e1f35 60%, #2a1f4a 100%);
+    padding: 80px 40px 70px;
+    text-align: center;
+    color: #fff;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(124,106,247,0.2);
+    border: 1px solid rgba(124,106,247,0.5);
+    color: #a89df8;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero h1 { font-size: 38px; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+  .hero h1 span { color: #a89df8; }
+  .hero p { font-size: 17px; color: #9da3b4; max-width: 540px; margin: 0 auto 40px; line-height: 1.7; }
+  .hero-steps {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-chip {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #ccc;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .hero-chip:hover { background: rgba(124,106,247,0.2); border-color: #7c6af7; color: #fff; }
+
+  /* MAIN */
+  .container { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* SECTION CARD */
+  .section-card {
+    background: #fff;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    border: 1px solid #e8eaf0;
+  }
+  .section-header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid #f0f1f5;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .section-number {
+    background: #7c6af7;
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .section-number.cover { background: linear-gradient(135deg, #7c6af7, #5b4de0); }
+  .section-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+  .section-desc { font-size: 14px; color: #6b7280; line-height: 1.6; }
+  .section-body { padding: 28px 32px; }
+
+  /* UI MOCKUP */
+  .mockup {
+    background: #f8f9fc;
+    border: 1px solid #e4e6ed;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .mockup-bar {
+    background: #12141c;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mockup-dot.red { background: #ff5f57; }
+  .mockup-dot.yellow { background: #febc2e; }
+  .mockup-dot.green { background: #28c840; }
+  .mockup-url { color: #888; font-size: 11px; margin-left: 8px; font-family: monospace; }
+  .mockup-content { padding: 20px; }
+
+  /* FORM MOCKUP */
+  .mock-form { display: grid; gap: 14px; }
+  .mock-field label { display: block; font-size: 11px; font-weight: 600; color: #6b7280; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .5px; }
+  .mock-input {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #9ca3af;
+  }
+  .mock-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .mock-radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mock-radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 2px solid #e4e6ed;
+    border-radius: 10px;
+    font-size: 13px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .mock-radio.selected { border-color: #7c6af7; background: #f3f1ff; }
+  .mock-radio .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #ccc; }
+  .mock-radio.selected .dot { border-color: #7c6af7; background: #7c6af7; }
+  .mock-radio .emoji { font-size: 15px; }
+  .mock-btn { padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+  .mock-btn.primary { background: #7c6af7; color: #fff; }
+  .mock-btn.secondary { background: #fff; color: #374151; border: 1.5px solid #d1d5db; }
+  .mock-btns { display: flex; gap: 10px; margin-top: 4px; }
+
+  /* SIDEBAR MOCKUP */
+  .mock-sidebar-panel {
+    background: #fff;
+    border: 1.5px solid #e4e6ed;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .mock-sidebar-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #9ca3af; margin-bottom: 12px; }
+  .mock-aviso {
+    border-left: 3px solid #f59e0b;
+    padding: 10px 12px;
+    background: #fffbeb;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 8px;
+  }
+  .mock-aviso .aviso-title { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+  .mock-aviso .aviso-date { font-size: 11px; color: #9ca3af; margin: 2px 0; }
+  .mock-aviso .aviso-link { font-size: 11px; color: #7c6af7; cursor: pointer; }
+  .mock-aviso .aviso-amount { font-weight: 700; font-size: 13px; color: #374151; float: right; }
+
+  /* TABLE MOCKUP */
+  .mock-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .mock-table th { background: #f8f9fc; color: #9ca3af; font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 10px 12px; text-align: left; border-bottom: 1px solid #e4e6ed; }
+  .mock-table td { padding: 12px 12px; border-bottom: 1px solid #f0f1f5; vertical-align: middle; }
+  .mock-table tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge.suplido { background: #fef3c7; color: #92400e; }
+  .badge.concepto { background: #dbeafe; color: #1e40af; }
+  .badge.pendiente { background: #f3f4f6; color: #6b7280; }
+  .badge.facturado { background: #d1fae5; color: #065f46; }
+  .badge.urgente { background: #fee2e2; color: #991b1b; }
+
+  /* TABS MOCKUP */
+  .mock-tabs { display: flex; gap: 0; border-bottom: 2px solid #e4e6ed; margin-bottom: 16px; }
+  .mock-tab { padding: 10px 18px; font-size: 13px; font-weight: 600; color: #9ca3af; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .mock-tab.active { color: #7c6af7; border-bottom-color: #7c6af7; }
+  .mock-tab .count { display: inline-block; background: #fee2e2; color: #991b1b; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 5px; }
+  .mock-tab.active .count { background: #ede9fe; color: #5b21b6; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-box { background: #fff; border: 1.5px solid #e4e6ed; border-radius: 10px; padding: 16px; text-align: center; }
+  .stat-box .stat-val { font-size: 22px; font-weight: 800; color: #1a1a2e; }
+  .stat-box .stat-val.orange { color: #f59e0b; }
+  .stat-box .stat-val.red { color: #ef4444; }
+  .stat-box .stat-val.green { color: #10b981; }
+  .stat-box .stat-label { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+
+  /* PROGRESS */
+  .progress-bar-wrap { background: #f0f1f5; border-radius: 20px; height: 8px; margin: 12px 0; overflow: hidden; }
+  .progress-bar-fill { background: linear-gradient(90deg, #7c6af7, #a89df8); height: 100%; border-radius: 20px; width: 21%; }
+
+  /* INFO BOXES */
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .info-box { border-radius: 10px; padding: 16px 18px; }
+  .info-box.yellow { background: #fffbeb; border: 1.5px solid #fde68a; }
+  .info-box.blue { background: #eff6ff; border: 1.5px solid #bfdbfe; }
+  .info-box .info-title { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+  .info-box.yellow .info-title { color: #92400e; }
+  .info-box.blue .info-title { color: #1e40af; }
+  .info-box p { font-size: 12px; line-height: 1.6; color: #374151; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .tag.yellow { background: #fef3c7; color: #92400e; }
+  .tag.blue { background: #dbeafe; color: #1e40af; }
+
+  /* TIPS */
+  .tip-list { display: grid; gap: 12px; margin-top: 4px; }
+  .tip {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #f8f9fc;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 3px solid #7c6af7;
+  }
+  .tip-icon { font-size: 20px; flex-shrink: 0; }
+  .tip-text { font-size: 13px; color: #374151; line-height: 1.6; }
+  .tip-text strong { color: #1a1a2e; }
+
+  /* ALERT */
+  .alert { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #9a3412; margin-top: 16px; display: flex; align-items: center; gap: 10px; }
+  .alert-green { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+
+  /* SEARCH BAR MOCKUP */
+  .mock-search { background: #fff; border: 1.5px solid #d1d5db; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #9ca3af; }
+  .mock-search span { font-size: 15px; }
+
+  /* CLIENTS TABLE */
+  .clients-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .clients-title { font-size: 15px; font-weight: 700; }
+  .clients-count { font-size: 12px; color: #9ca3af; font-weight: 400; }
+
+  /* SECTION ANCHOR */
+  .section-anchor { display: block; height: 0; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 40px 24px; color: #9ca3af; font-size: 13px; }
+  .footer strong { color: #7c6af7; }
+
+  /* SCROLL ANIMATION */
+  .section-card { opacity: 0; transform: translateY(20px); transition: opacity .4s ease, transform .4s ease; }
+  .section-card.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="nav-logo">🔴 <span>Refacturación</span> · Mercantil 1</div>
+  <div class="nav-steps">
+    <div class="nav-step active" onclick="scrollTo('s0')">Portada</div>
+    <div class="nav-step" onclick="scrollTo('s1')">01 · Registro</div>
+    <div class="nav-step" onclick="scrollTo('s2')">02 · Histórico</div>
+    <div class="nav-step" onclick="scrollTo('s3')">03 · CRM</div>
+    <div class="nav-step" onclick="scrollTo('s4')">04 · Anticipos</div>
+    <div class="nav-step" onclick="scrollTo('s5')">05 · Clientes</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="s0">
+  <div class="hero-badge">Portal · Delvy</div>
+  <h1>Guía de <span>Refacturación</span></h1>
+  <p>Herramienta para gestionar los gastos del departamento: registrar, asociar a cliente y generar la tarea de facturación en el CRM.</p>
+  <div class="hero-steps">
+    <div class="hero-chip" onclick="scrollTo('s1')">01 · Nuevo registro</div>
+    <div class="hero-chip" onclick="scrollTo('s2')">02 · Histórico</div>
+    <div class="hero-chip" onclick="scrollTo('s3')">03 · Crear tarea CRM</div>
+    <div class="hero-chip" onclick="scrollTo('s4')">04 · Anticipos</div>
+    <div class="hero-chip" onclick="scrollTo('s5')">05 · Clientes</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- 01 NUEVO REGISTRO -->
+  <span class="section-anchor" id="s1"></span>
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div>
+        <div class="section-title">➕ Nuevo registro</div>
+        <div class="section-desc">Cada vez que el departamento paga algo que debe cobrar al cliente (tasas, notaría, registro…), se añade aquí. El gasto queda guardado como <strong>Pendiente</strong> hasta que se facture.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div>
+          <div class="mockup-dot yellow"></div>
+          <div class="mockup-dot green"></div>
+          <span class="mockup-url">delvy-hub.vercel.app/portal/mercantil1/refacturacion</span>
+        </div>
+        <div class="mockup-content">
+          <!-- Progress bar -->
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+            <span style="font-size:12px; color:#9ca3af;">Progreso</span>
+            <div style="flex:1;" class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+            <span style="font-size:12px; font-weight:700; color:#ef4444;">21% refacturado</span>
+            <span style="font-size:11px; color:#9ca3af;">1235 € de 5882 €</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 360px; gap:20px;">
+            <!-- FORM -->
+            <div style="background:#fff; border:1.5px solid #e4e6ed; border-radius:12px; padding:20px;">
+              <div style="font-size:14px; font-weight:700; margin-bottom:16px;">➕ Nuevo registro</div>
+              <div class="mock-form">
+                <div class="mock-field">
+                  <label>Cliente</label>
+                  <div class="mock-input">Nombre o NIF…</div>
+                </div>
+                <div class="mock-row">
+                  <div class="mock-field">
+                    <label>Fecha</label>
+                    <div class="mock-input">25/06/2026</div>
+                  </div>
+                  <div class="mock-field">
+                    <label>Importe (€)</label>
+                    <div class="mock-input">27.27</div>
+                  </div>
+                </div>
+                <div class="mock-field">
+                  <label>Refacturación</label>
+                  <div class="mock-radio-group">
+                    <div class="mock-radio selected">
+                      <div class="dot"></div>
+                      <span class="emoji">🟡</span> Suplido <span style="font-size:11px;color:#9ca3af;">(total c/IVA)</span>
+                    </div>
+                    <div class="mock-radio">
+                      <div class="dot"></div>
+                      <span class="emoji">🔵</span> Concepto <span style="font-size:11px;color:#9ca3af;">(base s/IVA)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mock-row">
+                  <div class="mock-field">
+                    <label>Forma de pago</label>
+                    <div class="mock-radio-group" style="flex-direction:column; gap:6px;">
+                      <div class="mock-radio selected" style="font-size:12px;">
+                        <div class="dot"></div> 💳 Tarjeta empresa
+                      </div>
+                      <div class="mock-radio" style="font-size:12px;">
+                        <div class="dot"></div> 🏦 Saldo cuenta
+                      </div>
+                      <div class="mock-radio" style="font-size:12px;">
+                        <div class="dot"></div> 👤 Pago personal
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mock-field">
+                    <label>Tipo de entrada</label>
+                    <div class="mock-radio-group" style="flex-direction:column; gap:6px;">
+                      <div class="mock-radio selected" style="font-size:12px;">
+                        <div class="dot"></div> 📋 Normal
+                      </div>
+                      <div class="mock-radio" style="font-size:12px;">
+                        <div class="dot"></div> 🏠 Asume el departamento
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mock-field">
+                  <label>Descripción</label>
+                  <div class="mock-input" style="height:52px;"></div>
+                </div>
+                <div class="mock-field">
+                  <label>PDF factura (opcional)</label>
+                  <div class="mock-input" style="text-align:center; border-style:dashed; color:#b0b7c3;">📎 Arrastra el PDF aquí</div>
+                </div>
+                <div class="mock-btns">
+                  <button class="mock-btn secondary" style="flex:1;">Guardar y crear tarea</button>
+                  <button class="mock-btn primary" style="flex:1;">Solo guardar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div class="mock-sidebar-panel">
+                <div class="mock-sidebar-title">🔎 Comprobación de duplicados</div>
+                <p style="font-size:12px;color:#6b7280;">Rellena <strong>cliente</strong> e <strong>importe</strong> y te avisaremos si ya existe un gasto similar este mes.</p>
+              </div>
+              <div class="mock-sidebar-panel">
+                <div class="mock-sidebar-title">⚠️ Avisos de administración <span style="background:#fee2e2;color:#991b1b;border-radius:10px;padding:1px 6px;font-size:10px;">4</span></div>
+                <div class="mock-aviso">
+                  <span class="aviso-amount">32.61 €</span>
+                  <div class="aviso-title">Registro de la propiedad-madrid</div>
+                  <div class="aviso-date">2026-06-16</div>
+                  <div class="aviso-link">Haz clic para pre-cargar en el formulario →</div>
+                </div>
+                <div class="mock-aviso">
+                  <span class="aviso-amount">8.69 €</span>
+                  <div class="aviso-title">Registro de la propiedad-madrid</div>
+                  <div class="aviso-date">2026-06-15</div>
+                  <div class="aviso-link">Haz clic para pre-cargar en el formulario →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO BOXES SUPLIDO vs CONCEPTO -->
+      <div class="info-grid">
+        <div class="info-box yellow">
+          <div class="info-title">🟡 SUPLIDO → Importe TOTAL con IVA</div>
+          <p>Es un pago que Delvy hace <em>en nombre del cliente</em>. Se recupera tal cual.<br><br><strong>Ej:</strong> Nota simple 27,27 € → pones <strong>27,27 €</strong></p>
+          <div class="tag-list">
+            <span class="tag yellow">Nota simple</span>
+            <span class="tag yellow">Presentación libros</span>
+            <span class="tag yellow">Correo certificado</span>
+            <span class="tag yellow">Provisiones</span>
+          </div>
+        </div>
+        <div class="info-box blue">
+          <div class="info-title">🔵 CONCEPTO FACTURABLE → Base Imponible SIN IVA</div>
+          <p>Factura emitida a nombre de Delvy. Se repercute solo la base.<br><br><strong>Ej:</strong> Factura 100 € + 21% IVA → pones <strong>100 €</strong> (base)</p>
+          <div class="tag-list">
+            <span class="tag blue">Desplazamientos</span>
+            <span class="tag blue">Mensajería</span>
+            <span class="tag blue">Presentación telemática</span>
+            <span class="tag blue">Burofax</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-list" style="margin-top:20px;">
+        <div class="tip">
+          <div class="tip-icon">💡</div>
+          <div class="tip-text"><strong>Avisos de administración:</strong> cuando Holded importa automáticamente un gasto, aparece en el panel derecho. Haz clic en él para pre-cargar todos los datos en el formulario sin tener que escribirlos a mano.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🔁</div>
+          <div class="tip-text"><strong>Guardar y crear tarea</strong> guarda el gasto <em>y</em> abre directamente el formulario de tarea CRM. <strong>Solo guardar</strong> lo deja como Pendiente para procesarlo en bloque más adelante desde el Histórico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 HISTÓRICO -->
+  <span class="section-anchor" id="s2"></span>
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div>
+        <div class="section-title">📋 Histórico</div>
+        <div class="section-desc">Lista completa de todos los gastos del año con su estado actual. La barra de progreso arriba muestra en tiempo real qué porcentaje ya está refacturado.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+          <span class="mockup-url">Histórico · 143 registros</span>
+        </div>
+        <div class="mockup-content">
+          <div style="background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; color:#856404;">
+            📎 <strong>55 conceptos pendientes de adjuntar PDF</strong> — sin PDF no se puede refacturar correctamente
+          </div>
+          <div style="margin-bottom:12px; display:flex; align-items:center; gap:10px;">
+            <div class="mock-search" style="flex:1;"><span>🔍</span> Buscar cliente, descripción o importe…</div>
+            <button class="mock-btn secondary" style="font-size:12px; padding:9px 16px;">↓ Exportar</button>
+          </div>
+          <div class="mock-tabs">
+            <div class="mock-tab active">Pendiente <span class="count">106</span></div>
+            <div class="mock-tab">Facturado <span class="count" style="background:#d1fae5;color:#065f46;">37</span></div>
+            <div class="mock-tab">Asumido por el depto <span class="count" style="background:#f3f4f6;color:#6b7280;">0</span></div>
+          </div>
+          <table class="mock-table">
+            <thead>
+              <tr>
+                <th>Fecha</th><th>Cliente</th><th>Descripción</th><th>Importe</th><th>PDF</th><th>Refacturación</th><th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:#6b7280;font-size:12px;">18/06/2026</td>
+                <td><span style="color:#f59e0b;font-size:12px;cursor:pointer;">Buscar cliente 🔍</span></td>
+                <td style="font-size:12px;">EAD DEFENSE & AEROSPACE HOLDING</td>
+                <td style="font-size:12px;"><strong>22.54</strong><br><span style="color:#9ca3af;font-size:10px;">base imponible</span></td>
+                <td><span style="color:#7c6af7;font-size:12px;cursor:pointer;">🗂 Ver</span></td>
+                <td><span class="badge concepto">Concepto</span></td>
+                <td><span class="badge pendiente">Pendiente ▾</span></td>
+              </tr>
+              <tr>
+                <td style="color:#6b7280;font-size:12px;">08/06/2026</td>
+                <td><span style="font-size:12px;font-weight:600;">JENSEN TORREVIEJA SL</span></td>
+                <td style="font-size:12px;">Resolución inscripción - Registro Mercantil Alicante</td>
+                <td style="font-size:12px;"><strong>02.06</strong><br><span style="color:#9ca3af;font-size:10px;">total c/IVA</span></td>
+                <td><span style="color:#9ca3af;font-size:12px;">📎 Adjuntar</span></td>
+                <td><span class="badge suplido">Suplido</span></td>
+                <td><span class="badge pendiente">Pendiente ▾</span></td>
+              </tr>
+              <tr>
+                <td style="color:#6b7280;font-size:12px;">05/06/2026</td>
+                <td><span style="font-size:12px;font-weight:600;">ASM WEB SERVICES, S.L.U.</span></td>
+                <td style="font-size:12px;">REGISTRO MERCANTIL DE BARCELONA 59354715</td>
+                <td style="font-size:12px;"><strong>65.44</strong><br><span style="color:#9ca3af;font-size:10px;">total c/IVA</span></td>
+                <td><span style="color:#9ca3af;font-size:12px;">📎 Adjuntar</span></td>
+                <td><span class="badge suplido">Suplido</span></td>
+                <td><span class="badge facturado">Facturado ▾</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px; color:#9ca3af; text-align:right; margin-top:10px;">Último sync: 25/6/2026</p>
+        </div>
+      </div>
+
+      <div class="tip-list">
+        <div class="tip">
+          <div class="tip-icon">🔍</div>
+          <div class="tip-text"><strong>Buscar cliente en naranja</strong> significa que ese gasto aún no tiene cliente asignado. Haz clic en el icono de lupa para asociarlo. Sin cliente asignado, no se puede generar la tarea de facturación.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">📂</div>
+          <div class="tip-text"><strong>Adjuntar PDF:</strong> si ves el botón "Adjuntar" en naranja es porque falta la factura. Sin ella no se puede refacturar correctamente. Puedes arrastrar el PDF directamente sobre esa fila.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">↓</div>
+          <div class="tip-text"><strong>Exportar</strong> descarga todos los registros del filtro activo en Excel, útil para revisiones de cierre de mes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 CREAR TAREA CRM -->
+  <span class="section-anchor" id="s3"></span>
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div>
+        <div class="section-title">🧾 Crear tarea CRM</div>
+        <div class="section-desc">Seleccionas cliente y proyecto, revisas los gastos pre-cargados y con un clic se crea automáticamente la tarea de facturación en el CRM.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <!-- PASO 1 -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="background:#7c6af7;color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;">PASO 1</div>
+        <div style="font-size:13px;font-weight:600;color:#374151;">Selecciona cliente y proyecto</div>
+      </div>
+
+      <div class="mockup" style="margin-bottom:24px;">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+          <span class="mockup-url">Nueva tarea de facturación · mercantil1</span>
+        </div>
+        <div class="mockup-content">
+          <div style="max-width:680px;margin:0 auto;">
+            <div style="font-size:16px;font-weight:800;margin-bottom:4px;">Nueva tarea de facturación</div>
+            <div style="font-size:12px;color:#9ca3af;margin-bottom:20px;">mercantil1 · Los gastos pendientes se pre-cargan automáticamente</div>
+
+            <div style="background:#fff;border:1.5px solid #e4e6ed;border-radius:12px;padding:20px;">
+              <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;margin-bottom:14px;">PASO 1 · SELECCIONA CLIENTE Y PROYECTO</div>
+
+              <div class="mock-field" style="margin-bottom:14px;">
+                <label>Cliente</label>
+                <div style="background:#fff;border:1.5px solid #7c6af7;border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="background:#7c6af7;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">JT</div>
+                    <div>
+                      <div style="font-size:13px;font-weight:700;">JENSEN TORREVIEJA SL</div>
+                      <div style="font-size:11px;color:#9ca3af;">—</div>
+                    </div>
+                  </div>
+                  <span style="color:#9ca3af;cursor:pointer;">✕</span>
+                </div>
+              </div>
+
+              <!-- Dropdown búsqueda (estado previo) -->
+              <div style="background:#f8f9fc;border:1px dashed #d1d5db;border-radius:8px;padding:12px;margin-bottom:14px;">
+                <div style="font-size:11px;color:#9ca3af;margin-bottom:8px;font-style:italic;">Al buscar, el dropdown muestra los gastos pendientes por cliente:</div>
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#fff;border:1px solid #e4e6ed;border-radius:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="background:#e4e6ed;color:#374151;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">JT</div>
+                      <span style="font-size:12px;font-weight:600;">JENSEN TORREVIEJA SL</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;">2 pend.</span>
+                      <span style="color:#f59e0b;font-size:10px;font-weight:600;">⚠ Sin proyecto</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#fff;border:1px solid #e4e6ed;border-radius:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="background:#e4e6ed;color:#374151;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">JM</div>
+                      <span style="font-size:12px;font-weight:600;">JENSEN MARBELLA SL</span>
+                    </div>
+                    <span style="color:#f59e0b;font-size:10px;font-weight:600;">⚠ Sin proyecto</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Proyectos -->
+              <div style="margin-bottom:14px;">
+                <div style="font-size:11px;color:#6b7280;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+                  <span style="font-weight:600;">Proyecto activo</span>
+                  <span style="color:#7c6af7;cursor:pointer;font-size:11px;">+ Crear en CRM ↗</span>
+                  <span style="color:#9ca3af;cursor:pointer;font-size:11px;">↺ Recargar</span>
+                </div>
+                <div style="border:2px solid #ef4444;border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;background:#fff;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:16px;height:16px;border-radius:50%;border:2px solid #ef4444;background:#ef4444;flex-shrink:0;"></div>
+                    <div>
+                      <div style="font-size:13px;font-weight:700;">LIBROS MERCANTILES</div>
+                      <div style="font-size:11px;color:#9ca3af;">Creado 28/4/2026 · Puntual · mercantil1</div>
+                    </div>
+                  </div>
+                  <span style="background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:2px 10px;border-radius:10px;">Activo</span>
+                </div>
+              </div>
+
+              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;font-size:12px;color:#166534;margin-bottom:16px;">
+                ✓ 2 gastos pendientes pre-cargados para JENSEN TORREVIEJA SL
+              </div>
+
+              <div style="display:flex;justify-content:flex-end;">
+                <button class="mock-btn primary" style="padding:10px 24px;">Continuar →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 2 -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="background:#7c6af7;color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;">PASO 2</div>
+        <div style="font-size:13px;font-weight:600;color:#374151;">Revisa los servicios y crea la tarea</div>
+      </div>
+
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+          <span class="mockup-url">Nueva tarea de facturación</span>
+        </div>
+        <div class="mockup-content">
+          <div style="max-width:780px;margin:0 auto;">
+
+            <!-- Header cliente/proyecto -->
+            <div style="background:#12141c;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="color:#fff;font-size:15px;font-weight:800;">JENSEN TORREVIEJA SL</div>
+                <div style="color:#9ca3af;font-size:12px;margin-top:2px;">LIBROS MERCANTILES</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <span style="background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;">Activo</span>
+                <span style="background:#7c6af7;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;">mercantil1</span>
+              </div>
+            </div>
+
+            <!-- Info contacto -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+              <div style="background:#f8f9fc;border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Estado contacto</div>
+                <div style="font-size:12px;font-weight:600;color:#10b981;">● Activo</div>
+              </div>
+              <div style="background:#f8f9fc;border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Email contacto</div>
+                <div style="font-size:12px;color:#9ca3af;">—</div>
+              </div>
+              <div style="background:#f8f9fc;border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Email facturación</div>
+                <div style="font-size:12px;color:#9ca3af;">—</div>
+              </div>
+              <div style="background:#f8f9fc;border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">NIF/CIF</div>
+                <div style="font-size:12px;color:#9ca3af;">—</div>
+              </div>
+            </div>
+
+            <!-- Info general -->
+            <div style="margin-bottom:20px;">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Información General</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                <div class="mock-field">
+                  <label>Compañía emisora</label>
+                  <div class="mock-input" style="color:#374151;">Delvy Law SL</div>
+                </div>
+                <div class="mock-field">
+                  <label>Fecha de emisión</label>
+                  <div class="mock-input" style="color:#374151;">25/06/2026</div>
+                </div>
+                <div class="mock-field">
+                  <label>Método de facturación</label>
+                  <div class="mock-input" style="color:#374151;">Único pago</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Servicios -->
+            <div style="margin-bottom:16px;">
+              <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Servicios a incluir en la factura</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;">⚡ Pre-cargado desde mercantil1</span>
+                <span style="font-size:11px;color:#6b7280;">Gastos pendientes de refacturar — desmarca los que no quieras incluir</span>
+              </div>
+
+              <!-- Cabecera tabla -->
+              <div style="display:grid;grid-template-columns:32px 1fr 180px 80px 80px 30px;gap:8px;padding:6px 10px;background:#f8f9fc;border-radius:6px;margin-bottom:6px;">
+                <div></div>
+                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Concepto · Descripción factura</div>
+                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">SKU</div>
+                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Importe</div>
+                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">IVA</div>
+                <div></div>
+              </div>
+
+              <!-- Línea concepto (azul) -->
+              <div style="display:grid;grid-template-columns:32px 1fr 180px 80px 80px 30px;gap:8px;padding:10px;background:#fff;border:1.5px solid #e4e6ed;border-radius:8px;align-items:center;margin-bottom:6px;">
+                <input type="checkbox" checked style="accent-color:#7c6af7;" disabled>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="background:#dbeafe;color:#1e40af;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;">GR1-26-037</span>
+                  <span style="font-size:12px;">Jensen Torrevieja 24/04/2026 WEB3495783</span>
+                </div>
+                <div style="font-size:12px;color:#374151;">2M1DS — DENOMINACIÓN SO…</div>
+                <div style="font-size:13px;font-weight:700;">2,06</div>
+                <div style="font-size:12px;color:#374151;">21%</div>
+                <div>▾</div>
+              </div>
+
+              <!-- Línea suplido (amarillo) -->
+              <div style="border:1.5px solid #fde68a;border-radius:8px;overflow:hidden;margin-bottom:6px;">
+                <div style="display:grid;grid-template-columns:32px 1fr 180px 80px 80px 30px;gap:8px;padding:10px;background:#fffbeb;align-items:center;">
+                  <input type="checkbox" checked style="accent-color:#7c6af7;" disabled>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="background:#fef3c7;color:#92400e;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;">SR1-26-042</span>
+                    <span style="font-size:12px;">Jensen Torrevieja 24/04/2026 WEB3495783</span>
+                  </div>
+                  <div style="font-size:12px;color:#374151;">SUPLIDOS — Suplido</div>
+                  <div style="font-size:13px;font-weight:700;">2,06</div>
+                  <div style="font-size:12px;color:#374151;">No sujeto</div>
+                  <div>▾</div>
+                </div>
+                <div style="padding:6px 10px 10px 50px;">
+                  <button class="mock-btn secondary" style="font-size:11px;padding:4px 12px;">📎 Adjuntar justificante</button>
+                </div>
+              </div>
+
+              <!-- Warning suplido sin PDF -->
+              <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px 14px;font-size:12px;color:#9a3412;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;">
+                <span>⚠️</span>
+                <div><strong>1 suplido sin PDF adjunto</strong><br>Puedes crear la tarea igualmente, pero administración no tendrá el justificante en el CRM.</div>
+              </div>
+            </div>
+
+            <!-- Info adicional -->
+            <div class="mock-field" style="margin-bottom:16px;">
+              <label>Información adicional para el equipo de administración</label>
+              <div class="mock-input" style="height:60px;color:#9ca3af;">Notas internas, instrucciones especiales…</div>
+            </div>
+
+            <!-- Emails -->
+            <div class="mock-field" style="margin-bottom:20px;">
+              <label>Emails para envío de factura</label>
+              <div style="background:#f8f9fc;border:1.5px solid #e4e6ed;border-radius:8px;padding:12px;">
+                <div style="font-size:12px;color:#9ca3af;margin-bottom:8px;">Sin emails configurados para este cliente</div>
+                <div style="display:flex;gap:8px;">
+                  <div class="mock-input" style="flex:1;">añadir email…</div>
+                  <button class="mock-btn primary" style="font-size:12px;padding:8px 16px;">+ Añadir</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer total + botones -->
+            <div style="background:#f8f9fc;border:1.5px solid #e4e6ed;border-radius:10px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:12px;color:#6b7280;">2 ítems seleccionados</span>
+                <span class="badge suplido">SUPLIDO: 2,06 €</span>
+                <span class="badge concepto">CONCEPTO: 2,06 €</span>
+              </div>
+              <div style="font-size:16px;font-weight:800;">Total: 4,12 €</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
+              <button class="mock-btn secondary">← Volver</button>
+              <div style="display:flex;gap:10px;">
+                <button class="mock-btn secondary">👁 Vista previa</button>
+                <button class="mock-btn primary" style="background:#ef4444;">🧾 Crear tarea de facturación</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-list">
+        <div class="tip">
+          <div class="tip-icon">⚠️</div>
+          <div class="tip-text"><strong>"Sin proyecto"</strong> en el dropdown significa que ese cliente no tiene ningún proyecto activo en Holded. Debes crearlo primero usando el enlace <strong>"+ Crear en CRM"</strong> que aparece tras seleccionarlo — sin proyecto no se puede generar la tarea.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">⚡</div>
+          <div class="tip-text"><strong>Pre-cargado automático:</strong> al seleccionar cliente y proyecto, los gastos pendientes del Histórico se cargan solos. Solo tienes que desmarcar los que no quieras incluir en esta tarea.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">📎</div>
+          <div class="tip-text"><strong>Suplidos sin justificante:</strong> puedes crear la tarea igualmente, pero administración no tendrá el PDF en el CRM. Lo ideal es adjuntarlo antes pulsando "Adjuntar justificante" en la línea del suplido.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">✅</div>
+          <div class="tip-text">También puedes lanzar este flujo directamente al guardar un gasto nuevo: botón <strong>"Guardar y crear tarea"</strong> en el formulario principal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 ANTICIPOS -->
+  <span class="section-anchor" id="s4"></span>
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div>
+        <div class="section-title">💰 Anticipos pendientes de facturar</div>
+        <div class="section-desc">Pagos que ya ha hecho el cliente como provisión de fondos y que aún no tienen factura emitida. Si llevan más de 30 días, aparecen en rojo como urgentes.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+          <span class="mockup-url">Anticipos pendientes de facturar</span>
+        </div>
+        <div class="mockup-content">
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#1e40af;">
+            <strong>¿Qué son los anticipos?</strong> Pagos iniciales/provisión del cliente pendientes de emitir la factura definitiva.
+          </div>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="stat-val">4</div><div class="stat-label">Anticipos pendientes</div></div>
+            <div class="stat-box"><div class="stat-val orange">5.085 €</div><div class="stat-label">Importe pendiente</div></div>
+            <div class="stat-box"><div class="stat-val red">0</div><div class="stat-label">Urgentes (+30 días)</div></div>
+            <div class="stat-box"><div class="stat-val green">0</div><div class="stat-label">Liquidados este período</div></div>
+          </div>
+          <table class="mock-table">
+            <thead>
+              <tr><th>Fecha anticipo</th><th>Concepto / Referencia</th><th>Importe</th><th>Días pendiente</th><th>Estado</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size:12px;">13/04/2026</td>
+                <td style="font-size:12px;font-weight:600;">Abono transferencia de dal digital it company</td>
+                <td style="font-size:12px;font-weight:700;">2.285,00 €</td>
+                <td style="font-size:12px;">72 días</td>
+                <td><span class="badge" style="background:#fef3c7;color:#92400e;font-size:11px;">⏳ Pendiente factura</span></td>
+                <td><button class="mock-btn primary" style="font-size:11px;padding:5px 12px;">Ir al CRM →</button></td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;">28/04/2026</td>
+                <td style="font-size:12px;font-weight:600;">Abono transferencia de palomes sanmarti luis</td>
+                <td style="font-size:12px;font-weight:700;">1.000,00 €</td>
+                <td style="font-size:12px;">57 días</td>
+                <td><span class="badge" style="background:#fef3c7;color:#92400e;font-size:11px;">⏳ Pendiente factura</span></td>
+                <td><button class="mock-btn primary" style="font-size:11px;padding:5px 12px;">Ir al CRM →</button></td>
+              </tr>
+              <tr>
+                <td style="font-size:12px;">05/03/2026</td>
+                <td style="font-size:12px;font-weight:600;">Transferencia goledge, s.l.</td>
+                <td style="font-size:12px;font-weight:700;">600,00 €</td>
+                <td style="font-size:12px;">112 días</td>
+                <td><span class="badge urgente" style="font-size:11px;">🔴 Urgente</span></td>
+                <td><button class="mock-btn primary" style="font-size:11px;padding:5px 12px;">Ir al CRM →</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:#9ca3af;margin-top:10px;">Sincronizado desde Holded automáticamente</p>
+        </div>
+      </div>
+
+      <div class="tip-list">
+        <div class="tip">
+          <div class="tip-icon">🔴</div>
+          <div class="tip-text"><strong>Urgentes (+30 días):</strong> si un anticipo lleva más de 30 días sin factura, se marca en rojo. Hay que emitir la factura cuanto antes. El botón <strong>"Ir al CRM →"</strong> lleva directamente al expediente del cliente en Holded.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🔄</div>
+          <div class="tip-text">Los datos se sincronizan automáticamente desde Holded cada vez que abres el portal. Si acabas de cobrar un anticipo y no aparece, recarga la página para forzar la actualización.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 CLIENTES -->
+  <span class="section-anchor" id="s5"></span>
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div>
+        <div class="section-title">👥 Clientes</div>
+        <div class="section-desc">Listado de todos los clientes del departamento, sincronizado automáticamente desde el CRM cada vez que abres el portal. Si un cliente no aparece, hay que añadirlo primero en el CRM.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+          <span class="mockup-url">Clientes · CRM</span>
+        </div>
+        <div class="mockup-content">
+          <div class="clients-header">
+            <div>
+              <span class="clients-title">Clientes</span>
+              <span style="font-size:12px;color:#7c6af7;margin-left:8px;font-weight:600;">CRM</span>
+              <span class="clients-count"> · 264 clientes</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <div class="mock-search" style="width:260px;"><span>🔍</span> Buscar por nombre, NIF o alias…</div>
+              <button class="mock-btn secondary" style="font-size:12px;padding:9px 14px;">🔄 Sync clientes</button>
+            </div>
+          </div>
+          <table class="mock-table">
+            <thead>
+              <tr><th>Nombre oficial</th><th>NIF</th><th>Alias (separados por coma)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size:13px;font-weight:600;">2013 LLOGO, S.A</td>
+                <td style="font-size:12px;color:#9ca3af;">—</td>
+                <td><span style="font-size:12px;color:#9ca3af;font-style:italic;">Escribe alias…</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:13px;font-weight:600;">9 TO 5, S.L.</td>
+                <td style="font-size:12px;color:#9ca3af;">—</td>
+                <td><span style="font-size:12px;color:#9ca3af;font-style:italic;">Escribe alias…</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:13px;font-weight:600;">AB InBev Austria GmbH</td>
+                <td style="font-size:12px;color:#9ca3af;">—</td>
+                <td><span style="font-size:12px;color:#9ca3af;font-style:italic;">Escribe alias…</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:13px;font-weight:600;">ABOUT FI EUROPE, S.L.</td>
+                <td style="font-size:12px;color:#9ca3af;">—</td>
+                <td><span style="font-size:12px;color:#9ca3af;font-style:italic;">Escribe alias…</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tip-list">
+        <div class="tip">
+          <div class="tip-icon">🔄</div>
+          <div class="tip-text"><strong>Sync clientes</strong> descarga la lista actualizada desde el CRM. Se hace automáticamente al abrir el portal, pero puedes forzarlo manualmente si acabas de añadir un cliente nuevo en Holded.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🏷️</div>
+          <div class="tip-text"><strong>Alias:</strong> si un cliente tiene un nombre diferente en los extractos bancarios al que aparece en el CRM, añade el alias aquí separado por comas. El buscador del formulario de Nuevo registro lo encontrará por ambos nombres.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">⚠️</div>
+          <div class="tip-text"><strong>¿No encuentras a un cliente?</strong> Hay que añadirlo primero en Holded CRM y luego pulsar "Sync clientes". No se pueden añadir clientes directamente desde este portal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guía generada para <strong>Portal Delvy · Mercantil 1</strong> · Refacturación
+</div>
+
+<script>
+  // Scroll suave a secciones
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Activar nav step según scroll
+  const sections = ['s0','s1','s2','s3','s4','s5'];
+  const navSteps = document.querySelectorAll('.nav-step');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = i;
+    });
+    navSteps.forEach((s, i) => s.classList.toggle('active', i === current));
+  });
+
+  // Animación de entrada
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section-card').forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
